@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <QTimer>
+#include "snake.h"
 
 class Widget : public QWidget
 {
@@ -11,12 +13,15 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget() override;
+    
+protected:
     void paintEvent(QPaintEvent *event) override;
-    const int nodeSize = 20;
-    const int columns = 40;
-    const int rows = 30;
 
 private:
+    Snake snake_p1;
+    int currentSpeed;
+    QTimer *gameTimer;
+    void timeTick();
     void drawGrid(QPainter *painter); // 绘制网格
     void drawSnake(QPainter *painter); // 绘制蛇
     void drawFood(QPainter *painter); // 绘制食物

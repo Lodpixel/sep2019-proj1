@@ -16,9 +16,9 @@ public:
     Snake();
     int getlength();
     void move();
+    std::deque<QPoint> body;
 
 private:
-    std::deque<QPoint> body;
     Direction currentDir;
     int length;
 };

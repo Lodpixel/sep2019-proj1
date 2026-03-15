@@ -1,15 +1,16 @@
 #include "snake.h"
+#include "config.h"
 #include <deque>
 
 Snake::Snake()
 {
     length = 5;
-    QPoint Point(Widget::nodeSize, Widget::rows * Widget::nodeSize / 2);
+    QPoint Point(GameConfig::nodeSize, GameConfig::rows * GameConfig::nodeSize / 2);
     int count = length;
     while (count--)
     {
         body.push_front(Point);
-        Point.rx() += Widget::nodeSize;
+        Point.rx() += GameConfig::nodeSize;
     }
 
     currentDir = Right;
@@ -17,22 +18,22 @@ Snake::Snake()
 
 int Snake::getlength() { return length; }
 
-int Snake::move()
+void Snake::move()
 {
     QPoint Point = body.front();
     switch (currentDir)
     {
     case Up:
-        Point.ry() += widget.nodeSize;
+        Point.ry() += GameConfig::nodeSize;
         break;
     case Down:
-        Point.ry() -= widget.nodeSize;
+        Point.ry() -= GameConfig::nodeSize;
         break;
     case Left:
-        Point.rx() -= widget.nodeSize;
+        Point.rx() -= GameConfig::nodeSize;
         break;
     case Right:
-        Point.rx() += widget.nodeSize;
+        Point.rx() += GameConfig::nodeSize;
         break;
     }
     body.push_front(Point);
