@@ -22,6 +22,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(sep2019-proj1
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        snake.h snake.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET sep2019-proj1 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
