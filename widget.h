@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QTimer>
+#include <QKeyEvent>
 #include "snake.h"
 
 class Widget : public QWidget
@@ -16,6 +17,7 @@ public:
     
 protected:
     void paintEvent(QPaintEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     Snake snake_p1;

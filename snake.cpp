@@ -24,10 +24,10 @@ void Snake::move()
     switch (currentDir)
     {
     case Up:
-        Point.ry() += GameConfig::nodeSize;
+        Point.ry() -= GameConfig::nodeSize;
         break;
     case Down:
-        Point.ry() -= GameConfig::nodeSize;
+        Point.ry() += GameConfig::nodeSize;
         break;
     case Left:
         Point.rx() -= GameConfig::nodeSize;
@@ -36,6 +36,15 @@ void Snake::move()
         Point.rx() += GameConfig::nodeSize;
         break;
     }
+    
     body.push_front(Point);
     body.pop_back();
+}
+
+void Snake::changeDir(Direction dir)
+{
+    if (dir + currentDir != 3) // 防止方向相反（方法比较神秘，但节省大量代码）
+    {
+        currentDir = dir;
+    }
 }

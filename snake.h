@@ -8,15 +8,16 @@ class Snake
 public:
     enum Direction
     {
+        Left,
         Up,
         Down,
-        Left,
         Right
     };
     Snake();
+    std::deque<QPoint> body;
     int getlength();
     void move();
-    std::deque<QPoint> body;
+    void changeDir(Direction dir);
 
 private:
     Direction currentDir;

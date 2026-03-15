@@ -60,3 +60,26 @@ void Widget::timeTick()
     snake_p1.move();
     this->update();
 }
+
+void Widget::keyPressEvent(QKeyEvent *event)
+{
+    int key = event->key();
+    switch (key)
+    {
+    case Qt::Key_W:
+        snake_p1.changeDir(Snake::Up);
+        break;
+    case Qt::Key_A:
+        snake_p1.changeDir(Snake::Left);
+        break;
+    case Qt::Key_S:
+        snake_p1.changeDir(Snake::Down);
+        break;
+    case Qt::Key_D:
+        snake_p1.changeDir(Snake::Right);
+        break;
+    default:
+        QWidget::keyPressEvent(event);
+        break;
+    }
+}
