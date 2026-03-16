@@ -27,5 +27,7 @@ private:
     void drawGrid(QPainter *painter); // 绘制网格
     void drawSnake(QPainter *painter); // 绘制蛇
     void drawFood(QPainter *painter); // 绘制食物
+    void drawDieScene(QPainter *painter);
+    bool isGameOver(); // 判断游戏是否结束
 };
 #endif // WIDGET_H

@@ -20,8 +20,11 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor(40, 44, 52));
     painter.drawRect(this->rect());
-    painter.setPen(QColor(255, 255, 255, 30));
-
+    painter.setBrush(Qt::NoBrush);
+    if (isGameOver())
+    {
+        drawDieScene(&painter);   
+    }
     painter.setRenderHint(QPainter::Antialiasing);
     drawGrid(&painter);
     drawSnake(&painter);
@@ -30,6 +33,7 @@ void Widget::paintEvent(QPaintEvent *event)
 // 绘制网格
 void Widget::drawGrid(QPainter *painter)
 {
+    painter->setPen(QColor(255, 255, 255, 30));
     for (int i = 1; i < GameConfig::columns; ++i)
     {
         painter->drawLine(i * GameConfig::nodeSize, 0, i * GameConfig::nodeSize, GameConfig::rows * GameConfig::nodeSize);
@@ -51,6 +55,11 @@ void Widget::drawSnake(QPainter *painter)
 }
 
 void Widget::drawFood(QPainter *painter)
+{
+
+}
+
+void Widget::drawDieScene(QPainter *painter)
 {
 
 }
@@ -82,4 +91,14 @@ void Widget::keyPressEvent(QKeyEvent *event)
         QWidget::keyPressEvent(event);
         break;
     }
+}
+
+bool Widget::isGameOver()
+{
+    if (snake_p1.currentState == Snake::Die)
+    {
+        gameTimer->stop();
+        return true;
+    }
+    return false;
 }
