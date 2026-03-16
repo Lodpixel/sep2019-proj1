@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "snake.h"
 #include "config.h"
+#include "food.h"
 #include <QPainter>
 
 Widget::Widget(QWidget *parent) : QWidget(parent)
@@ -23,7 +24,7 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.setBrush(Qt::NoBrush);
     if (isGameOver())
     {
-        drawDieScene(&painter);   
+        drawDieScene(&painter);
     }
     painter.setRenderHint(QPainter::Antialiasing);
     drawGrid(&painter);
@@ -50,23 +51,38 @@ void Widget::drawSnake(QPainter *painter)
     painter->setBrush(Qt::green);
     for (const auto &pos : snake_p1.body)
     {
-        painter->drawRect(pos.x() - GameConfig::nodeSize + 1, pos.y() + 1, GameConfig::nodeSize - 2, GameConfig::nodeSize - 2); // 留出网格的空间，体现像素感
+        painter->drawRect(pos.x() + 1, pos.y() + 1, GameConfig::nodeSize - 2, GameConfig::nodeSize - 2); // 留出网格的空间，体现像素感
     }
 }
 
 void Widget::drawFood(QPainter *painter)
 {
-
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(Qt::blue);
+    for (const auto &pos : currentFoods.foods)
+    {
+        painter->drawRect(pos.x() + 1, pos.y() + 1, GameConfig::nodeSize - 2, GameConfig::nodeSize - 2);
+    }
 }
 
 void Widget::drawDieScene(QPainter *painter)
 {
-
 }
 
 void Widget::timeTick()
 {
-    snake_p1.move();
+    QPoint Point = snake_p1.move();
+    int index = eatFood();
+    if (index != -1) // 如果吃到食物
+    {
+        currentFoods.foods.erase(currentFoods.foods.begin() + index);
+        snake_p1.snakeGrow();
+    }
+    if (snake_p1.isDead())
+    {
+        qDebug() << "Die!! 死亡坐标:" << Point;
+        snake_p1.currentState = Snake::Die;
+    }
     this->update();
 }
 
@@ -101,4 +117,17 @@ bool Widget::isGameOver()
         return true;
     }
     return false;
+}
+
+// 返回food的索引，如果没找到，返回-1
+int Widget::eatFood()
+{
+    for (int i = 0; i < currentFoods.foods.size(); ++i)
+    {
+        if (snake_p1.head == currentFoods.foods[i])
+        {
+            return i;
+        }
+    }
+    return -1;
 }

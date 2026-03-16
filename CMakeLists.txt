@@ -24,6 +24,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         snake.h snake.cpp
         config.h
+        food.h food.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET sep2019-proj1 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

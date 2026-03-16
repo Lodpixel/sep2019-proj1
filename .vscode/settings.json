@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "qwidget": "cpp",
-        "qpainter": "cpp"
+        "qpainter": "cpp",
+        "chrono": "cpp",
+        "variant": "cpp"
     }
 }

@@ -1,0 +1,74 @@
+Project 1: QSnake
+
+ 贪吃蛇是⼀一个很经典的游戏。在游戏中，玩家操控⼀一条细⻓长的直线（蛇），它会不不停前进，玩家
+ 只能操控蛇的头部朝向（上下左右），⼀一路路拾拾起触碰到的⻝⾷食物，并要避免触碰到⾃自身或者其他障
+ 碍物。每次贪吃蛇吃掉⼀一件⻝⾷食物，它的身体便便增⻓长⼀一些。吃掉⼀一些⻝⾷食物後會使蛇的移動速度逐漸
+ 加快，让游戏的难度渐渐变⼤大。遊戲設計⼤大致分為四⾯面都有牆(都不不可穿越)以及某部分的牆可以穿
+ 越，以及四⾯面牆都可以穿越的模式。
+
+
+
+
+ Snake, Telmac 1800, CHIP-8, 1978
+
+
+
+在本项⽬目中，你将独⾃自实现⼀一个贪吃蛇游戏，具体内容包括：
+
+ 1. 编程环境的搭建(5%)
+
+ 2. 基本功能(35%)
+
+    1. 蛇的显示和移动
+    2. 墙和⻝⾷食物的显示与判定
+ 3. 进阶功能(30%)
+
+    1. 单机多⼈人游戏(多条蛇，不不同按键控制不不同蛇)
+    2. 具有特殊效果的⻝⾷食物(具体效果请发挥你的想象⼒力力)
+    3. 初始地形以及随机产⽣生的砖块
+    4. 简单的AI蛇(策略略⾃自拟，如按照最短路路径去吃最近的⻝⾷食物等，⽆无需实现的⾮非常复杂)
+ 4. 其他功能(10%)
+
+    1. 除上述功能外，增加⾄至少⼀一项其他功能
+ 5. ⾯面向对象的设计、注释以及代码⻛风格(20%)
+
+项⽬目最终需要进⾏行行答辩，请对你所编写的每⼀一⾏行行代码负责。
+
+提交时间和⽅方法
+
+ 1. 最终答辩时间将于下学期初另⾏行行通知，因此同学们有⾜足够多的时间进⾏行行实现和改进。同时为保证同
+   学们的进度，请于6⽉月1⽇日前提交⼀一份可编译运⾏行行的阶段性源代码。
+ 2. 提交内容：游戏源代码压缩包和设计⽂文档。提交⽅方法与之前的lab相同，放置于ftp
+   (ftp://dmkaplony:public@public.sjtu.edu.cn)中。请在6⽉月1⽇日之前提交⼀一份可编译运⾏行行的源代码
+   到 /upload/c++2019/proj1/checkpoint 中，在下学期答辩前提交最终代码和⽂文档
+   到 /upload/c++2019/proj1/final 中。
+
+编程环境
+
+图形库推荐使⽤用Qt（以及QtCreator编辑器器），下载地址为：https://mirrors.tuna.tsinghua.edu.cn/qt
+/oﬃcial_releases/online_installers/，请根据⾃自⼰己的系统选择相应的安装程序。在窗⼝口上绘制图形的⽅方
+法可参考Qt提供的例例⼦子中的Analog Clock Window Example。
+
+你也可以使⽤用Visual Studio中的图形库进⾏行行图形化编程，但助教不不会提供相应的帮助。如需使⽤用此外的
+其他图形库，请先联系助教取得同意。
+
+
+
+
+对于MacOS来说，只需要安装下述选项（Qt macOS和QtCreator）：
+对于windows来说只需要安装下述选项（Qt MinGW和QtCreator和CBD Debugger），
+参考资料料
+
+  cppreference.com: https://zh.cppreference.com/
+  QT 2D Graphics with QPainter: https://doc.qt.io/qt-5/topics-graphics.html#2d-graphics-with-
+  qpainter
+  QT Painting systems: https://doc.qt.io/qt-5/paintsystem.html
+  百度百科：https://baike.baidu.com/item/贪⻝⾷食蛇/84454
+  维基百科：https://en.wikipedia.org/wiki/Snake_(video_game_genre)
+
+
+
+
+示例例
+⼀一些只能得40%分数的参考截图(请做的好看⼀一些……)：
+

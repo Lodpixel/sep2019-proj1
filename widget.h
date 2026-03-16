@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QKeyEvent>
 #include "snake.h"
+#include "food.h"
 
 class Widget : public QWidget
 {
@@ -14,6 +15,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget() override;
+    void snakeGrow();
     
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -21,6 +23,7 @@ protected:
 
 private:
     Snake snake_p1;
+    food currentFoods;
     int currentSpeed;
     QTimer *gameTimer;
     void timeTick();
@@ -29,5 +32,6 @@ private:
     void drawFood(QPainter *painter); // 绘制食物
     void drawDieScene(QPainter *painter);
     bool isGameOver(); // 判断游戏是否结束
+    int eatFood(); // 判断蛇有没有吃到食物
 };
 #endif // WIDGET_H

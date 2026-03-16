@@ -18,18 +18,22 @@ public:
         Normal,
         Die
     };
-    Snake();
-    std::deque<QPoint> body;
-    int getlength();
+    QPoint head;
+    QPoint lastPoppedTail;
     SnakeState currentState;
-    void move();
+    std::deque<QPoint> body;
+    Snake();
+    int getlength();
+    QPoint move(); // 返回头部的位置
     void changeDir(Direction dir);
+    void snakeGrow();
+    bool isDead();
 
 private:
     Direction currentDir;
     int length;
-    bool outOfRange(const QPoint &point);
-    bool hitItself(const QPoint &point);
+    bool outOfRange();
+    bool hitItself();
 };
 
 #endif // SNAKE_H
