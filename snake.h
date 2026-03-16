@@ -31,6 +31,7 @@ public:
 
 private:
     Direction currentDir;
+    bool canTurnThisTick;
     int length;
     bool outOfRange();
     bool hitItself();

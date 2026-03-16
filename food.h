@@ -8,8 +8,8 @@ class food
 {
 public:
     std::vector<QPoint> foods;
-    const int minFood = 1;
-    const int maxFood = 4;
+    const static int minFood = 1;
+    const static int maxFood = 4;
     food();
     void generateFood();
 

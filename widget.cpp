@@ -7,10 +7,14 @@
 Widget::Widget(QWidget *parent) : QWidget(parent)
 {
     currentSpeed = 400;
+    foodUpdateSpeed = 5000;
     setFixedSize(800, 600);
     gameTimer = new QTimer(this);
+    foodTimer = new QTimer(this);
     connect(gameTimer, &QTimer::timeout, this, &Widget::timeTick);
-    gameTimer->start(currentSpeed);
+    connect(foodTimer, &QTimer::timeout, this, &Widget::generateFood);
+        gameTimer->start(currentSpeed);
+    foodTimer->start(foodUpdateSpeed);
 }
 
 Widget::~Widget() = default;
@@ -78,10 +82,24 @@ void Widget::timeTick()
         currentFoods.foods.erase(currentFoods.foods.begin() + index);
         snake_p1.snakeGrow();
     }
+    if (currentFoods.foods.size() < food::minFood)
+    {
+        currentFoods.generateFood();
+        foodTimer->start(foodUpdateSpeed);
+    }
     if (snake_p1.isDead())
     {
         qDebug() << "Die!! 死亡坐标:" << Point;
+        if (!snake_p1.body.empty())
+        {
+            snake_p1.body.pop_front();
+            snake_p1.body.push_back(snake_p1.lastPoppedTail);
+            snake_p1.head = snake_p1.body.front();
+        }
         snake_p1.currentState = Snake::Die;
+        gameTimer->stop();
+        this->update();
+        return;
     }
     this->update();
 }
@@ -130,4 +148,12 @@ int Widget::eatFood()
         }
     }
     return -1;
+}
+
+void Widget::generateFood()
+{
+    if (currentFoods.foods.size() < food::maxFood)
+    {
+        currentFoods.generateFood();
+    }
 }

@@ -16,8 +16,8 @@ void food::generateFood()
 {
     // 生成随机的坐标
     static std::mt19937 maskEngine(static_cast<unsigned int>(std::time(nullptr)));
-    std::uniform_int_distribution<int> xRange(0, GameConfig::columns);
-    std::uniform_int_distribution<int> yRange(0, GameConfig::rows);
+    std::uniform_int_distribution<int> xRange(0, GameConfig::columns - 1);
+    std::uniform_int_distribution<int> yRange(0, GameConfig::rows - 1);
     int randomX = xRange(maskEngine);
     int randomY = yRange(maskEngine);
 

@@ -15,6 +15,7 @@ Snake::Snake()
     }
     currentState = Normal;
     currentDir = Right;
+    canTurnThisTick = true;
 }
 
 int Snake::getlength() { return length; }
@@ -45,14 +46,21 @@ QPoint Snake::move()
         lastPoppedTail = body.back();
         body.pop_back();
     }
+    canTurnThisTick = true;
     return Point;
 }
 
 void Snake::changeDir(Direction dir)
 {
-    if (dir + currentDir != 3) // 防止方向相反（方法比较神秘，但节省大量代码）
+    if (!canTurnThisTick)
+    {
+        return;
+    }
+
+    if (dir + currentDir != 3 && dir != currentDir) // 防止方向相反，并且每tick只允许一次有效转向
     {
         currentDir = dir;
+        canTurnThisTick = false;
     }
 }
 // 判断是否超界
