@@ -43,3 +43,12 @@ bool food::notRepeated(const QPoint &point)
     }
     return true;
 }
+
+void food::reset()
+{
+    foods.clear();
+    for (int i = 0; i < startFood; ++i)
+    {
+        generateFood();
+    }
+}

@@ -12,6 +12,7 @@ public:
     const static int maxFood = 4;
     food();
     void generateFood();
+    void reset();
 
 private:
     const int startFood = 2;

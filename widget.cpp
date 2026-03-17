@@ -3,18 +3,18 @@
 #include "config.h"
 #include "food.h"
 #include <QPainter>
+#include <QLabel>
+#include <QPushButton>
 
 Widget::Widget(QWidget *parent) : QWidget(parent)
 {
-    currentSpeed = 400;
-    foodUpdateSpeed = 5000;
     setFixedSize(800, 600);
     gameTimer = new QTimer(this);
     foodTimer = new QTimer(this);
+    initElements();
+    gameStart();
     connect(gameTimer, &QTimer::timeout, this, &Widget::timeTick);
     connect(foodTimer, &QTimer::timeout, this, &Widget::generateFood);
-        gameTimer->start(currentSpeed);
-    foodTimer->start(foodUpdateSpeed);
 }
 
 Widget::~Widget() = default;
@@ -26,14 +26,14 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.setBrush(QColor(40, 44, 52));
     painter.drawRect(this->rect());
     painter.setBrush(Qt::NoBrush);
-    if (isGameOver())
-    {
-        drawDieScene(&painter);
-    }
     painter.setRenderHint(QPainter::Antialiasing);
     drawGrid(&painter);
     drawSnake(&painter);
     drawFood(&painter);
+    if (isGameOver())
+    {
+        drawDieScene(&painter);
+    }
 }
 // 绘制网格
 void Widget::drawGrid(QPainter *painter)
@@ -71,6 +71,15 @@ void Widget::drawFood(QPainter *painter)
 
 void Widget::drawDieScene(QPainter *painter)
 {
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(QColor(0, 0, 0, 160));
+    painter->drawRect(0, 0, GameConfig::nodeSize * GameConfig::columns, GameConfig::nodeSize * GameConfig::rows);
+
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Microsoft YaHei", 40));
+    painter->drawText(300, 200, "游戏结束！");
+
+    restartBtn->show();
 }
 
 void Widget::timeTick()
@@ -81,6 +90,11 @@ void Widget::timeTick()
     {
         currentFoods.foods.erase(currentFoods.foods.begin() + index);
         snake_p1.snakeGrow();
+        if (currentSpeed > 80)
+        {
+            currentSpeed *= speedUpRate;
+            gameTimer->start(currentSpeed);
+        }
     }
     if (currentFoods.foods.size() < food::minFood)
     {
@@ -156,4 +170,33 @@ void Widget::generateFood()
     {
         currentFoods.generateFood();
     }
+}
+
+void Widget::restartGame()
+{
+    gameStart();
+}
+
+void Widget::gameStart()
+{
+    currentSpeed = 400;
+    speedUpRate = 0.95;
+    foodUpdateSpeed = 5000;
+    snake_p1 = Snake();
+    currentFoods.reset();
+    gameTimer->start(currentSpeed);
+    foodTimer->start(foodUpdateSpeed);
+    if (restartBtn)
+    {
+        restartBtn->hide();
+    }
+}
+
+void Widget::initElements()
+{
+    restartBtn = new QPushButton("重新开始", this);
+    restartBtn->setStyleSheet("color: white;");
+    restartBtn->move(360, 400);
+    restartBtn->resize(100, 40);
+    connect(restartBtn, &QPushButton::clicked, this, &Widget::restartGame);
 }
