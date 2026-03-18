@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef SINGLEGAME_H
+#define SINGLEGAME_H
 
 #include <QWidget>
 #include <QPainter>
@@ -9,25 +9,27 @@
 #include "snake.h"
 #include "food.h"
 
-class Widget : public QWidget
+class SingleGame : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Widget(QWidget *parent = nullptr);
-    ~Widget() override;
+    explicit SingleGame(QWidget *parent = nullptr);
+    ~SingleGame() override;
     void snakeGrow();
+    void restart();
     
 protected:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
-    void restartGame();
-    void gameStart();
+
+signals:
+    void gameOverSignal();
 
 private:
     Snake snake_p1;
     food currentFoods;
-    int currentSpeed; 
+    int currentSpeed;
     int foodUpdateSpeed; // 食物刷新速度
     float speedUpRate; // 加速比例
     QTimer *gameTimer; // 游戏总计时器，负责刷新页面
@@ -37,10 +39,10 @@ private:
     void drawGrid(QPainter *painter); // 绘制网格
     void drawSnake(QPainter *painter); // 绘制蛇
     void drawFood(QPainter *painter); // 绘制食物
-    void drawDieScene(QPainter *painter);
     bool isGameOver(); // 判断游戏是否结束
     int eatFood(); // 判断蛇有没有吃到食物
     void generateFood(); // 与food类连接，产生新的食物
-    void initElements();
+    
 };
-#endif // WIDGET_H
+
+#endif // SINGLEGAME_H

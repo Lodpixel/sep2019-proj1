@@ -14,8 +14,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        widget.cpp
-        widget.h
+    singlegame.cpp
+    singlegame.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -25,6 +25,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         snake.h snake.cpp
         config.h
         food.h food.cpp
+        menu.h menu.cpp
+        gamemanager.h gamemanager.cpp
+        deathoverlay.h deathoverlay.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET sep2019-proj1 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

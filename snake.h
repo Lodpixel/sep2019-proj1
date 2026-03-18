@@ -24,7 +24,7 @@ public:
     std::deque<QPoint> body;
     Snake();
     int getlength();
-    QPoint move(); // 返回头部的位置
+    void move(); // 返回头部的位置
     void changeDir(Direction dir);
     void snakeGrow();
     bool isDead();

@@ -20,7 +20,7 @@ Snake::Snake()
 
 int Snake::getlength() { return length; }
 
-QPoint Snake::move()
+void Snake::move()
 {
     // 移动逻辑
     QPoint Point = body.front();
@@ -47,7 +47,6 @@ QPoint Snake::move()
         body.pop_back();
     }
     canTurnThisTick = true;
-    return Point;
 }
 
 void Snake::changeDir(Direction dir)
