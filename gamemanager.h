@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QStackedWidget>
+#include "gamecore.h"
 #include "singlegame.h"
 #include "menu.h"
 #include "deathoverlay.h"

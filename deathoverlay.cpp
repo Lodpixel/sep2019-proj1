@@ -19,7 +19,6 @@ void DeathOverlay::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::white);
     painter.setFont(QFont("Microsoft YaHei", 40));
     painter.drawText(300, 200, "游戏结束！");
-
     restartBtn->show();
 }
 
@@ -30,7 +29,6 @@ void DeathOverlay::initButton()
     restartBtn->move(360, 400);
     restartBtn->resize(100, 40);
     connect(restartBtn, &QPushButton::clicked, this, &DeathOverlay::emitRestart);
-    restartBtn->hide();
 }
 
 void DeathOverlay::emitRestart()

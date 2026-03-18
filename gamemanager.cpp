@@ -16,6 +16,7 @@ GameManager::GameManager(QObject *parent) : QObject{parent}
 void GameManager::startSingleGame()
 {
     stack->setCurrentIndex(1);
+    singleGame->restart(); // 调用启动函数
     currentGame = single;
 }
 
@@ -37,7 +38,7 @@ void GameManager::signalConn()
 {
     connect(singleOverLay, &DeathOverlay::restartSignal, this, &GameManager::restartGame);
     connect(menu, &Menu::startGameSignal, this, &GameManager::startSingleGame);
-    connect(singleGame, &SingleGame::gameOverSignal, this, &GameManager::singleGameOver);
+    connect(singleGame, &GameCore::gameOverSignal, this, &GameManager::singleGameOver);
 }
 
 void GameManager::initScenes()
@@ -45,6 +46,7 @@ void GameManager::initScenes()
     menu = new Menu();
     singleGame = new SingleGame();
     singleOverLay = new DeathOverlay(singleGame);
+    singleOverLay->hide();
 }
 
 void GameManager::initStack()
