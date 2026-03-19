@@ -3,20 +3,36 @@
 #include <deque>
 #include <QDebug>
 // 蛇中每个体节的坐标是所在图格的左上角坐标
-Snake::Snake()
+Snake::Snake(QPoint Point, Direction dir, int len)
 {
-    length = 5;
-    QPoint Point(0, GameConfig::rows * GameConfig::nodeSize / 2);
-    int count = length;
+    int count = len;
     while (count--)
     {
         body.push_front(Point);
-        Point.rx() += GameConfig::nodeSize;
+        switch(dir)
+        {
+        case Right:
+            currentDir = Right;
+            Point.rx() += GameConfig::nodeSize;
+            break;
+        case Left:
+            currentDir = Left;
+            Point.rx() -= GameConfig::nodeSize;
+            break;
+        case Up:
+            currentDir = Up;
+            Point.ry() -= GameConfig::nodeSize;
+            break;
+        case Down:
+            currentDir = Down;
+            Point.ry() += GameConfig::nodeSize;
+        }
     }
     currentState = Normal;
-    currentDir = Right;
     canTurnThisTick = true;
 }
+
+Snake::Snake() {}
 
 int Snake::getlength() { return length; }
 
@@ -100,4 +116,14 @@ void Snake::snakeGrow()
 bool Snake::isDead()
 {
     return outOfRange() || hitItself();
+}
+
+bool Snake::hitOtherSnake(const Snake& snake)
+{
+    for (size_t i = 0; i < snake.body.size(); ++i)
+    {
+        if (snake.body[i] == head)
+            return true;
+    }
+    return false;
 }

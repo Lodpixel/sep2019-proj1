@@ -3,6 +3,7 @@
 
 GameCore::GameCore(QWidget *parent) : QWidget{parent}
 {
+    setFocusPolicy(Qt::StrongFocus);
     gameTimer = new QTimer(this);
     foodTimer = new QTimer(this);
     connect(gameTimer, &QTimer::timeout, this, &GameCore::timeTick);
@@ -16,7 +17,7 @@ void GameCore::restart()
     currentSpeed = 400;
     speedUpRate = 0.95;
     foodUpdateSpeed = 5000;
-    snake_p1 = Snake();
+    snake_p1 = Snake(QPoint(0, GameConfig::nodeSize * (GameConfig::rows / 2)), Snake::Right, 5);
     currentFoods.reset();
     gameTimer->start(currentSpeed);
     foodTimer->start(foodUpdateSpeed);
@@ -123,7 +124,7 @@ void GameCore::afterSnakeDie(Snake &snake)
     if (!snake.body.empty())
     {
         snake.body.pop_front();
-        snake.body.push_back(snake_p1.lastPoppedTail);
+        snake.body.push_back(snake.lastPoppedTail);
         snake.head = snake.body.front();
     }
     snake.currentState = Snake::Die;

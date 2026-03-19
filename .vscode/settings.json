@@ -3,6 +3,8 @@
         "qwidget": "cpp",
         "qpainter": "cpp",
         "chrono": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "xlocale": "cpp",
+        "xstring": "cpp"
     }
 }

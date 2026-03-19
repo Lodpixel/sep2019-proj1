@@ -2,35 +2,36 @@
 #define MULTIGAME_H
 
 #include <QWidget>
+#include <QPoint>
 #include <QPainter>
 #include <QTimer>
 #include <QKeyEvent>
 #include <QPushButton>
+#include <QDebug>
 #include "snake.h"
+#include "gamecore.h"
 #include "food.h"
 
 
-class MultiGame : public QWidget
+class MultiGame : public GameCore
 {
     Q_OBJECT
 
 public:
     explicit MultiGame(QWidget *parent = nullptr);
-    
+    int winner = 0; // 记录胜者
+    void restart() override;
+
 protected:
 
 signals:
 
 private:
-    Snake snake_p1;
     Snake snake_p2;
-    food currentFoods;
-    int currentSpeed;
-    int foodUpdateSpeed; // 食物刷新速度
-    float speedUpRate; // 加速比例
-    QTimer *gameTimer; // 游戏总计时器，负责刷新页面
-    QTimer *foodTimer; // 负责食物的刷新
-    QPushButton *restartBtn = nullptr;
+    void drawSnake(QPainter *painter) override;
+    void timeTick() override;
+    void keyPressEvent(QKeyEvent *event)   override;
+
 };
 
 #endif // MULTIGAME_H

@@ -25,6 +25,7 @@ void DeathOverlay::paintEvent(QPaintEvent *event)
 void DeathOverlay::initButton()
 {
     restartBtn = new QPushButton("重新开始", this);
+    restartBtn->setFocusPolicy(Qt::NoFocus);
     restartBtn->setStyleSheet("color: white;");
     restartBtn->move(360, 400);
     restartBtn->resize(100, 40);

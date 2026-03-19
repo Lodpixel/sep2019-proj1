@@ -12,14 +12,18 @@ public:
     explicit Menu(QWidget *parent = nullptr);
 
 signals:
-    void startGameSignal();
+    void startSingleSignal();
+    void startMultiSignal();
 
 private:
     QLabel *title;
     QPushButton *singleButton;
+    QPushButton *multiButton;
     void inittitle();
     void initSingleButton();
-    void emitStartGame();
+    void initMultiButton();
+    void emitSingleGame();
+    void emitMultiGame();
 };
 
 #endif // MENU_H

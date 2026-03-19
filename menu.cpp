@@ -4,6 +4,7 @@ Menu::Menu(QWidget *parent) : QWidget{parent}
 {
     inittitle();
     initSingleButton();
+    initMultiButton();
 }
 
 void Menu::inittitle()
@@ -18,10 +19,23 @@ void Menu::initSingleButton()
     singleButton = new QPushButton("单人模式", this);
     singleButton->move(300, 400);
     singleButton->show();
-    connect(singleButton, &QPushButton::clicked, this, &Menu::emitStartGame);
+    connect(singleButton, &QPushButton::clicked, this, &Menu::emitSingleGame);
 }
 
-void Menu::emitStartGame()
+void Menu::initMultiButton()
 {
-    emit startGameSignal();
+    multiButton = new QPushButton("双人模式", this);
+    multiButton->move(300, 500);
+    multiButton->show();
+    connect(multiButton, &QPushButton::clicked, this, &Menu::emitMultiGame);
+}
+
+void Menu::emitSingleGame()
+{
+    emit startSingleSignal();
+}
+
+void Menu::emitMultiGame()
+{
+    emit startMultiSignal();
 }

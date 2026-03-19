@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QTimer>
+#include <QPoint>
 #include "snake.h"
 #include "food.h"
 
@@ -14,13 +15,13 @@ class GameCore : public QWidget
 public:
     explicit GameCore(QWidget *parent = nullptr);
     ~GameCore() override;
-    void restart();
+    virtual void restart();
 
 protected:
     Snake snake_p1;
     
     void paintEvent(QPaintEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
+    virtual void keyPressEvent(QKeyEvent *event) override;
     virtual void timeTick() = 0;
     void drawGrid(QPainter *painter); // 绘制网格
     virtual void drawSnake(QPainter *painter); // 绘制蛇
