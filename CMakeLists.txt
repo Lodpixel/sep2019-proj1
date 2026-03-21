@@ -30,6 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         deathoverlay.h deathoverlay.cpp
         multigame.h multigame.cpp
         gamecore.h gamecore.cpp
+        singlefood.h singlefood.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

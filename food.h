@@ -3,19 +3,20 @@
 
 #include <QPoint>
 #include <vector>
+#include "singlefood.h"
 
 class food
 {
 public:
-    std::vector<QPoint> foods;
-    const static int minFood = 1;
-    const static int maxFood = 4;
+    std::vector<singleFood> foods;
+    const static int minFood = 2;
+    const static int maxFood = 6;
     food();
     void generateFood();
     void reset();
 
 private:
-    const int startFood = 2;
+    const int startFood = 3;
     bool notRepeated(const QPoint &point);
 };
 

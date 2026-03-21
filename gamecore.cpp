@@ -6,8 +6,8 @@ GameCore::GameCore(QWidget *parent) : QWidget{parent}
     setFocusPolicy(Qt::StrongFocus);
     gameTimer = new QTimer(this);
     foodTimer = new QTimer(this);
-    connect(gameTimer, &QTimer::timeout, this, &GameCore::timeTick);
-    connect(foodTimer, &QTimer::timeout, this, &GameCore::generateFood);
+    chaosTimer = new QTimer(this);
+    connSig();
 }
 
 GameCore::~GameCore() = default;
@@ -62,9 +62,18 @@ void GameCore::drawSnake(QPainter *painter)
 void GameCore::drawFood(QPainter *painter)
 {
     painter->setPen(Qt::NoPen);
-    painter->setBrush(Qt::blue);
-    for (const auto &pos : currentFoods.foods)
+    for (const auto &curFood : currentFoods.foods)
     {
+        switch (curFood.type)
+        {
+        case singleFood::normal:
+            painter->setBrush(Qt::blue);
+            break;
+        case singleFood::chaos:
+            painter->setBrush(QColor(128, 0, 128));
+            break;
+        }
+        QPoint pos = curFood.point;
         painter->drawRect(pos.x() + 1, pos.y() + 1, GameConfig::nodeSize - 2, GameConfig::nodeSize - 2);
     }
 }
@@ -72,19 +81,26 @@ void GameCore::drawFood(QPainter *painter)
 void GameCore::keyPressEvent(QKeyEvent *event)
 {
     int key = event->key();
+    Snake::Direction Dir;
+    bool p1Chaos = (snake_p1.currentState == Snake::Chaos);
+    qDebug() << p1Chaos << "IN chaos!";
     switch (key)
     {
     case Qt::Key_W:
-        snake_p1.changeDir(Snake::Up);
+        Dir = p1Chaos ? Snake::Down : Snake::Up;
+        snake_p1.changeDir(Dir);
         break;
     case Qt::Key_A:
-        snake_p1.changeDir(Snake::Left);
+        Dir = p1Chaos ? Snake::Right : Snake::Left;
+        snake_p1.changeDir(Dir);
         break;
     case Qt::Key_S:
-        snake_p1.changeDir(Snake::Down);
+        Dir = p1Chaos ? Snake::Up : Snake::Down;
+        snake_p1.changeDir(Dir);
         break;
     case Qt::Key_D:
-        snake_p1.changeDir(Snake::Right);
+        Dir = p1Chaos ? Snake::Left : Snake::Right;
+        snake_p1.changeDir(Dir);
         break;
     default:
         QWidget::keyPressEvent(event);
@@ -96,11 +112,16 @@ void GameCore::eatFood(Snake &snake)
 {
     for (int i = 0; i < currentFoods.foods.size(); ++i)
     {
-        if (snake.head == currentFoods.foods[i])
+        if (snake.head == currentFoods.foods[i].point)
         {
-            currentFoods.foods.erase(currentFoods.foods.begin() + i);
             snake.snakeGrow();
             speedUp();
+            if (currentFoods.foods[i].type == singleFood::chaos)
+            {
+                snake.currentState = Snake::Chaos;
+                
+            }
+            currentFoods.foods.erase(currentFoods.foods.begin() + i);
         }
     }
 }
@@ -117,6 +138,7 @@ void GameCore::connSig()
 {
     connect(gameTimer, &QTimer::timeout, this, &GameCore::timeTick);
     connect(foodTimer, &QTimer::timeout, this, &GameCore::generateFood);
+    connect(chaosTimer, &QTimer::timeout, this, &GameCore::endChaos);
 }
 
 void GameCore::afterSnakeDie(Snake &snake)
@@ -154,4 +176,10 @@ void GameCore::speedUp()
         currentSpeed *= speedUpRate;
         gameTimer->start(currentSpeed);
     }
+}
+
+void GameCore::endChaos_p1()
+{
+    chaosTimer_p1->stop();
+    snake_p1.currentState = Snake::normal;
 }

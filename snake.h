@@ -16,6 +16,7 @@ public:
     enum SnakeState
     {
         Normal,
+        Chaos,
         Die
     };
     QPoint head;

@@ -6,8 +6,11 @@
 #include <QPainter>
 #include <QTimer>
 #include <QPoint>
+#include <QColor>
+#include <QDebug>
 #include "snake.h"
 #include "food.h"
+#include "singlefood.h"
 
 class GameCore : public QWidget
 {
@@ -32,6 +35,7 @@ protected:
     void connSig();
     void afterSnakeDie(Snake& snake);
     void endGame();
+    void endChaos();
 
 signals:
     void gameOverSignal();
@@ -39,10 +43,12 @@ signals:
 private:
     int currentSpeed;
     int foodUpdateSpeed; // 食物刷新速度
+    int chaosTime;
     float speedUpRate; // 加速比例
     food currentFoods;
     QTimer *gameTimer; // 游戏总计时器，负责刷新页面
     QTimer *foodTimer; // 负责食物的刷新
+    QTimer *chaosTimer_p1;
     void speedUp();
 };
 
