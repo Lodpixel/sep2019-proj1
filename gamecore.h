@@ -29,6 +29,7 @@ protected:
     void drawGrid(QPainter *painter); // 绘制网格
     virtual void drawSnake(QPainter *painter); // 绘制蛇
     void drawFood(QPainter *painter); // 绘制食物
+    virtual void drawScore(QPainter *painter); // 绘制分数
     singleFood::foodType eatFood(Snake &snake); // 判断蛇有没有吃到食物
     void generateFood(); // 与food类连接，产生新的食物
     void checkFood(); // 检查 food 是否低于阈值，如果低于，则生成

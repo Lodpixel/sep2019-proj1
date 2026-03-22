@@ -31,6 +31,8 @@ Snake::Snake(QPoint Point, Direction dir, int len, int id)
     currentState = Normal;
     canTurnThisTick = true;
     this->id = id;
+    score = 0;
+    head = body.front();
 }
 
 Snake::Snake() {}
@@ -63,6 +65,7 @@ void Snake::move()
         lastPoppedTail = body.back();
         body.pop_back();
     }
+    addScore(1);
     canTurnThisTick = true;
 }
 
@@ -127,4 +130,10 @@ bool Snake::hitOtherSnake(const Snake& snake)
             return true;
     }
     return false;
+}
+
+void Snake::addScore(int delta)
+{
+    int isChaos = (currentState == Chaos) ? 1 : 0;
+    score += delta * (1 + isChaos);
 }

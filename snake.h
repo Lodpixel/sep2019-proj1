@@ -24,12 +24,14 @@ public:
     SnakeState currentState;
     std::deque<QPoint> body;
     int id;
+    int score;
     Snake(QPoint startPos, Direction dir, int len, int id);
     Snake();
     int getlength();
     void move(); // 返回头部的位置
     void changeDir(Direction dir);
     void snakeGrow();
+    void addScore(int delta);
     bool isDead();
     bool hitOtherSnake(const Snake& snake);
 

@@ -33,6 +33,7 @@ void GameCore::paintEvent(QPaintEvent *event)
     drawGrid(&painter);
     drawSnake(&painter);
     drawFood(&painter);
+    drawScore(&painter);
 }
 
 void GameCore::drawGrid(QPainter *painter)
@@ -75,6 +76,13 @@ void GameCore::drawFood(QPainter *painter)
         QPoint pos = curFood.point;
         painter->drawRect(pos.x() + 1, pos.y() + 1, GameConfig::nodeSize - 2, GameConfig::nodeSize - 2);
     }
+}
+
+void GameCore::drawScore(QPainter *painter)
+{
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Microsoft YaHei", 12));
+    painter->drawText(10, 20, QString("P1分数: %1").arg(snake_p1.score));
 }
 
 void GameCore::keyPressEvent(QKeyEvent *event)
@@ -124,6 +132,7 @@ singleFood::foodType GameCore::eatFood(Snake &snake)
 void GameCore::eatNormal(Snake &snake)
 {
     snake.snakeGrow();
+    snake.addScore(50);
     speedUp();
 }
 

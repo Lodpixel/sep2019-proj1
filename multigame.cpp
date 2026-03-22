@@ -17,6 +17,14 @@ void MultiGame::drawSnake(QPainter *painter)
     }
 }
 
+void MultiGame::drawScore(QPainter *painter)
+{
+    GameCore::drawScore(painter);
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Microsoft YaHei", 12));
+    painter->drawText(10, 500, QString("P2分数: %1").arg(snake_p2.score));
+}
+
 void MultiGame::restart()
 {
     QPoint start = QPoint(GameConfig::nodeSize * (GameConfig::columns - 1), GameConfig::nodeSize * (GameConfig::rows / 2));
@@ -69,6 +77,16 @@ void MultiGame::timeTick()
         qDebug() << "2die!";
         afterSnakeDie(snake_p2);
         winner = 1;
+        endGame();
+    }
+    if (snake_p1.score >= 2000)
+    {
+        winner = 1;
+        endGame();
+    }
+    if (snake_p2.score >= 2000)
+    {
+        winner = 2;
         endGame();
     }
     this->update();

@@ -29,6 +29,7 @@ signals:
 private:
     Snake snake_p2;
     void drawSnake(QPainter *painter) override;
+    void drawScore(QPainter *painter) override;
     void timeTick() override;
     void keyPressEvent(QKeyEvent *event) override;
     void initChaosTimer();
