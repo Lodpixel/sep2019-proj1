@@ -6,7 +6,6 @@ GameCore::GameCore(QWidget *parent) : QWidget{parent}
     setFocusPolicy(Qt::StrongFocus);
     gameTimer = new QTimer(this);
     foodTimer = new QTimer(this);
-    chaosTimer = new QTimer(this);
     connSig();
 }
 
@@ -17,7 +16,7 @@ void GameCore::restart()
     currentSpeed = 400;
     speedUpRate = 0.95;
     foodUpdateSpeed = 5000;
-    snake_p1 = Snake(QPoint(0, GameConfig::nodeSize * (GameConfig::rows / 2)), Snake::Right, 5);
+    snake_p1 = Snake(QPoint(0, GameConfig::nodeSize * (GameConfig::rows / 2)), Snake::Right, 5, 1);
     currentFoods.reset();
     gameTimer->start(currentSpeed);
     foodTimer->start(foodUpdateSpeed);
@@ -108,22 +107,24 @@ void GameCore::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void GameCore::eatFood(Snake &snake)
+singleFood::foodType GameCore::eatFood(Snake &snake)
 {
     for (int i = 0; i < currentFoods.foods.size(); ++i)
     {
         if (snake.head == currentFoods.foods[i].point)
         {
-            snake.snakeGrow();
-            speedUp();
-            if (currentFoods.foods[i].type == singleFood::chaos)
-            {
-                snake.currentState = Snake::Chaos;
-                
-            }
+            singleFood::foodType type = currentFoods.foods[i].type;
             currentFoods.foods.erase(currentFoods.foods.begin() + i);
+            return type;
         }
     }
+    return singleFood::none;
+}
+
+void GameCore::eatNormal(Snake &snake)
+{
+    snake.snakeGrow();
+    speedUp();
 }
 
 void GameCore::generateFood()
@@ -138,7 +139,6 @@ void GameCore::connSig()
 {
     connect(gameTimer, &QTimer::timeout, this, &GameCore::timeTick);
     connect(foodTimer, &QTimer::timeout, this, &GameCore::generateFood);
-    connect(chaosTimer, &QTimer::timeout, this, &GameCore::endChaos);
 }
 
 void GameCore::afterSnakeDie(Snake &snake)
@@ -176,10 +176,4 @@ void GameCore::speedUp()
         currentSpeed *= speedUpRate;
         gameTimer->start(currentSpeed);
     }
-}
-
-void GameCore::endChaos_p1()
-{
-    chaosTimer_p1->stop();
-    snake_p1.currentState = Snake::normal;
 }

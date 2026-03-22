@@ -2,8 +2,9 @@
 #include "config.h"
 MultiGame::MultiGame(QWidget *parent) : GameCore{parent}
 {
+    initChaosTimer();
     QPoint start = QPoint(GameConfig::nodeSize * (GameConfig::columns - 1), GameConfig::nodeSize * (GameConfig::rows / 2));
-    snake_p2 = Snake(start, Snake::Left, 5);
+    snake_p2 = Snake(start, Snake::Left, 5, 2);
 }
 
 void MultiGame::drawSnake(QPainter *painter)
@@ -19,7 +20,7 @@ void MultiGame::drawSnake(QPainter *painter)
 void MultiGame::restart()
 {
     QPoint start = QPoint(GameConfig::nodeSize * (GameConfig::columns - 1), GameConfig::nodeSize * (GameConfig::rows / 2));
-    snake_p2 = Snake(start, Snake::Left, 5);
+    snake_p2 = Snake(start, Snake::Left, 5, 2);
     GameCore::restart();
 }
     
@@ -28,8 +29,24 @@ void MultiGame::timeTick()
 {
     snake_p1.move();
     snake_p2.move();
-    eatFood(snake_p1);
-    eatFood(snake_p2);
+    switch (eatFood(snake_p1))
+    {
+    case singleFood::normal:
+        eatNormal(snake_p1);
+        break;
+    case singleFood::chaos:
+        eatChaos_p1(snake_p1);
+        break;
+    }
+    switch (eatFood(snake_p2))
+    {
+    case singleFood::normal:
+        eatNormal(snake_p2);
+        break;
+    case singleFood::chaos:
+        eatChaos_p2(snake_p2);
+        break;
+    }
     checkFood();
     if (snake_p1.isDead() || snake_p1.hitOtherSnake(snake_p2))
     {
@@ -62,23 +79,55 @@ void MultiGame::keyPressEvent(QKeyEvent *event)
     int key = event->key();
     
     GameCore::keyPressEvent(event);
-    
+    bool p2Chaos = (snake_p2.currentState == Snake::Chaos);
+    Snake::Direction Dir;
     switch (key)
     {
     case Qt::Key_Up:
-        snake_p2.changeDir(Snake::Up);
+        Dir = p2Chaos ? Snake::Down : Snake::Up;
+        snake_p2.changeDir(Dir);
         break;
     case Qt::Key_Left:
-        snake_p2.changeDir(Snake::Left);
+        Dir = p2Chaos ? Snake::Right : Snake::Left;
+        snake_p2.changeDir(Dir);
         break;
     case Qt::Key_Down:
-        snake_p2.changeDir(Snake::Down);
+        Dir = p2Chaos ? Snake::Up : Snake::Down;
+        snake_p2.changeDir(Dir);
         break;
     case Qt::Key_Right:
-        snake_p2.changeDir(Snake::Right);
+        Dir = p2Chaos ? Snake::Left : Snake::Right;
+        snake_p2.changeDir(Dir);
         break;
     default:
         QWidget::keyPressEvent(event);
         break;
     }
+}
+
+void MultiGame::initChaosTimer()
+{
+    chaosTimer_p1 = new QTimer(this);
+    connect(chaosTimer_p1, &QTimer::timeout, [this]() {
+        snake_p1.currentState = Snake::Normal;
+        chaosTimer_p1->stop();
+    });
+
+    chaosTimer_p2 = new QTimer(this);
+    connect(chaosTimer_p2, &QTimer::timeout, [this]() {
+        snake_p2.currentState = Snake::Normal;
+        chaosTimer_p2->stop();
+    });
+}
+
+void MultiGame::eatChaos_p1(Snake &snake)
+{
+    snake.currentState = Snake::Chaos;
+    chaosTimer_p1->start(chaosTime);
+}
+
+void MultiGame::eatChaos_p2(Snake &snake)
+{
+    snake.currentState = Snake::Chaos;
+    chaosTimer_p2->start(chaosTime);
 }

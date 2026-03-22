@@ -1,10 +1,28 @@
 {
-    "files.associations": {
-        "qwidget": "cpp",
-        "qpainter": "cpp",
-        "chrono": "cpp",
-        "variant": "cpp",
-        "xlocale": "cpp",
-        "xstring": "cpp"
-    }
+  "cmake.sourceDirectory": "${workspaceFolder}",
+  "cmake.buildDirectory": "${workspaceFolder}/build/Desktop_Qt_6_10_2_MinGW_64_bit-Debug",
+  "cmake.generator": "MinGW Makefiles",
+  "cmake.configureSettings": {
+    "CMAKE_BUILD_TYPE": "Debug",
+    "CMAKE_PREFIX_PATH": "C:/Qt/6.10.2/mingw_64",
+    "CMAKE_C_COMPILER": "C:/Qt/Tools/mingw1310_64/bin/gcc.exe",
+    "CMAKE_CXX_COMPILER": "C:/Qt/Tools/mingw1310_64/bin/g++.exe",
+    "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+  },
+  "cmake.configureOnOpen": false,
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "C_Cpp.default.intelliSenseMode": "windows-gcc-x64",
+  "C_Cpp.default.compilerPath": "C:/Qt/Tools/mingw1310_64/bin/g++.exe",
+  "C_Cpp.default.cppStandard": "c++17",
+  "C_Cpp.default.cStandard": "c17",
+  "C_Cpp.errorSquiggles": "enabled",
+  "files.associations": {
+    "deque": "cpp",
+    "qwidget": "cpp",
+    "qpainter": "cpp",
+    "chrono": "cpp",
+    "variant": "cpp",
+    "xlocale": "cpp",
+    "xstring": "cpp"
+  }
 }

@@ -21,6 +21,8 @@ protected:
 
 private:
     void timeTick() override;
+    QTimer *chaosTimer_p1; // p1混乱状态计时器
+    void eatChaos(Snake &snake);
 };
 
 #endif // SINGLEGAME_H

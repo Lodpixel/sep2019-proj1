@@ -3,7 +3,7 @@
 #include <deque>
 #include <QDebug>
 // 蛇中每个体节的坐标是所在图格的左上角坐标
-Snake::Snake(QPoint Point, Direction dir, int len)
+Snake::Snake(QPoint Point, Direction dir, int len, int id)
 {
     int count = len;
     while (count--)
@@ -30,6 +30,7 @@ Snake::Snake(QPoint Point, Direction dir, int len)
     }
     currentState = Normal;
     canTurnThisTick = true;
+    this->id = id;
 }
 
 Snake::Snake() {}

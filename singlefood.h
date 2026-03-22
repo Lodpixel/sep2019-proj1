@@ -10,6 +10,7 @@ public:
     singleFood();
     enum foodType
     {
+        none,
         normal,
         chaos
     };
